@@ -30,8 +30,8 @@ if [[ -n ${INPUT_TOKEN} ]]; then
 fi
 
 API_URL="https://api.github.com/repos/$REPO"
-RELEASE_DATA=$(curl ${TOKEN:+"-H"} ${TOKEN:+"Authorization: token ${TOKEN}"} \
-                    "$API_URL/releases/${INPUT_VERSION}")
+RELEASE_DATA=$(curl ${TOKEN:+"-H"} ${TOKEN:+"Authorization: token ${TOKEN} Accept: application/vnd.github.v3+json"} \
+  "$API_URL/releases/${INPUT_VERSION}")
 MESSAGE=$(echo "$RELEASE_DATA" | jq -r ".message")
 
 if [[ "$MESSAGE" == "Not Found" ]]; then
