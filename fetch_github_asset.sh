@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -ex
+
 if [[ -z "$INPUT_FILE" ]]; then
   echo "Missing file input in the action"
   exit 1
@@ -45,7 +47,9 @@ fi
 
 echo "MESSAGE: '$RELEASE_DATA'"
 
-ASSET_ID=$(echo "$RELEASE_DATA" | jq -r ".assets | map(select(.name == \"${INPUT_FILE}\"))[0].id")
+
+
+ASSET_IDS=$(echo "$RELEASE_DATA" | jq -r ".assets | map(select(.name == \"${INPUT_FILE}\"))[0].id")
 TAG_VERSION=$(echo "$RELEASE_DATA" | jq -r ".tag_name" | sed -e "s/^v//" | sed -e "s/^v.//")
 RELEASE_NAME=$(echo "$RELEASE_DATA" | jq -r ".name")
 RELEASE_BODY=$(echo "$RELEASE_DATA" | jq -r ".body")
